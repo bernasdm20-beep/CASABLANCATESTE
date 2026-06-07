@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cancelar Marcação – FicaMarcado</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: #0f0f0f; color: #f0ece4; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+  .card { background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 32px 28px; max-width: 420px; width: 100%; text-align: center; }
+  .icon { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 28px; }
+  .icon-warning { background: rgba(200,160,60,0.15); border: 2px solid #c8a03c; }
+  .icon-success { background: rgba(40,180,100,0.15); border: 2px solid #28b464; }
+  .icon-error { background: rgba(220,60,60,0.15); border: 2px solid #dc3c3c; }
+  h1 { font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 10px; }
+  p { font-size: 14px; color: rgba(240,236,228,0.55); line-height: 1.7; margin-bottom: 8px; }
+  .summary { background: #111; border: 1px solid rgba(200,160,60,0.2); border-radius: 10px; padding: 16px; margin: 20px 0; text-align: left; }
+  .summary-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-label { font-size: 13px; color: rgba(240,236,228,0.4); }
+  .summary-value { font-size: 13px; font-weight: 500; color: #f0ece4; }
+  .btn { width: 100%; border: none; border-radius: 10px; padding: 15px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.2s; margin-top: 8px; }
+  .btn-danger { background: #c0392b; color: #fff; }
+  .btn-danger:hover { background: #e74c3c; }
+  .btn-secondary { background: #222; color: rgba(240,236,228,0.6); border: 1px solid rgba(255,255,255,0.08); }
+  .btn-secondary:hover { background: #2a2a2a; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .hidden { display: none; }
+  .brand { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #c8a03c; margin-bottom: 24px; }
+  .loading-text { color: rgba(240,236,228,0.4); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">FicaMarcado</div>
+
+  <div id="stateLoading">
+    <p class="loading-text">A verificar a tua marcação...</p>
+  </div>
+
+  <div id="stateConfirm" class="hidden">
+    <div class="icon icon-warning">⚠️</div>
+    <h1>Cancelar marcação?</h1>
+    <p>Tens a certeza que queres cancelar a seguinte marcação?</p>
+    <div class="summary" id="summaryConfirm"></div>
+    <button class="btn btn-danger" id="btnCancelar" onclick="confirmarCancelamento()">Sim, cancelar marcação</button>
+    <button class="btn btn-secondary" onclick="window.history.back()">Não, manter marcação</button>
+  </div>
+
+  <div id="stateSuccess" class="hidden">
+    <div class="icon icon-success">✓</div>
+    <h1>Marcação cancelada</h1>
+    <p>A tua marcação foi cancelada com sucesso.</p>
+    <div class="summary" id="summarySuccess"></div>
+  </div>
+
+  <div id="stateAlready" class="hidden">
+    <div class="icon icon-error">✕</div>
+    <h1>Já cancelada</h1>
+    <p>Esta marcação já foi cancelada anteriormente.</p>
+  </div>
+
+  <div id="stateError" class="hidden">
+    <div class="icon icon-error">✕</div>
+    <h1>Link inválido</h1>
+    <p>Não foi possível encontrar esta marcação. O link pode ter expirado.</p>
+  </div>
+</div>
+
+<script>
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhkf5-8JLachiVHx2EwmofHTGfUhWgJBgN7wD7xbxeAFB8pPJfFsOPRJCEX4fJxXTUiw/exec';
+var cancelId = new URL(window.location.href).searchParams.get('id');
+
+function showState(id) {
+  var ids = ['stateLoading','stateConfirm','stateSuccess','stateAlready','stateError'];
+  for (var i = 0; i < ids.length; i++) {
+    document.getElementById(ids[i]).classList.toggle('hidden', ids[i] !== id);
+  }
+}
+
+function summaryHTML(res) {
+  return '<div class="summary-row"><span class="summary-label">Serviço</span><span class="summary-value">' + res.servico + '</span></div>' +
+         '<div class="summary-row"><span class="summary-label">Data</span><span class="summary-value">' + res.data + '</span></div>' +
+         '<div class="summary-row"><span class="summary-label">Hora</span><span class="summary-value">' + res.hora + '</span></div>' +
+         '<div class="summary-row"><span class="summary-label">Nome</span><span class="summary-value">' + res.nome + '</span></div>';
+}
+
+if (!cancelId) {
+  showState('stateError');
+} else {
+  fetch(SCRIPT_URL + '?id=' + cancelId)
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.status === 'ja_cancelado') {
+        showState('stateAlready');
+      } else if (res.status === 'encontrado') {
+        document.getElementById('summaryConfirm').innerHTML = summaryHTML(res);
+        showState('stateConfirm');
+      } else {
+        showState('stateError');
+      }
+    })
+    .catch(function() { showState('stateError'); });
+}
+
+function confirmarCancelamento() {
+  var btn = document.getElementById('btnCancelar');
+  btn.disabled = true;
+  btn.textContent = 'A cancelar...';
+
+  fetch(SCRIPT_URL + '?id=' + cancelId + '&confirmar=1')
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.status === 'cancelado') {
+        document.getElementById('summarySuccess').innerHTML = summaryHTML(res);
+        showState('stateSuccess');
+      } else {
+        showState('stateError');
+      }
+    })
+    .catch(function() { showState('stateError'); });
+}
+</script>
+</body>
+</html>

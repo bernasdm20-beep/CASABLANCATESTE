@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barbearia do João – Marcações</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: #0f0f0f; color: #f0ece4; min-height: 100vh; }
+
+  .hero {
+    position: relative;
+    height: 220px;
+    background: linear-gradient(160deg, #1a1208 0%, #2d1f0a 50%, #0f0f0f 100%);
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 24px 24px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(200,160,60,0.03) 40px, rgba(200,160,60,0.03) 41px);
+  }
+  .hero-badge {
+    display: inline-block;
+    font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    color: #c8a03c; border: 1px solid rgba(200,160,60,0.4);
+    padding: 4px 10px; border-radius: 2px; margin-bottom: 10px;
+    width: fit-content; position: relative; z-index: 1;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px; font-weight: 700; color: #f0ece4;
+    line-height: 1.1; position: relative; z-index: 1;
+  }
+  .hero-sub { font-size: 13px; color: rgba(240,236,228,0.5); margin-top: 6px; position: relative; z-index: 1; }
+
+  .container { max-width: 480px; margin: 0 auto; padding: 0 16px 60px; }
+
+  .step-indicator { display: flex; gap: 6px; margin: 20px 0 0; }
+  .step-dot { height: 3px; border-radius: 2px; flex: 1; background: rgba(200,160,60,0.2); transition: background 0.3s; }
+  .step-dot.active { background: #c8a03c; }
+
+  .section-title {
+    font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    color: #c8a03c; margin: 28px 0 14px;
+  }
+
+  .service-list { display: flex; flex-direction: column; gap: 10px; }
+  .service-card {
+    background: #1a1a1a; border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 14px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;
+  }
+  .service-card:hover { border-color: rgba(200,160,60,0.4); background: #1f1f1f; }
+  .service-card.selected { border-color: #c8a03c; background: rgba(200,160,60,0.07); }
+  .service-card.selected::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: #c8a03c;
+  }
+  .service-info h3 { font-size: 15px; font-weight: 500; color: #f0ece4; }
+  .service-meta { font-size: 12px; color: rgba(240,236,228,0.45); margin-top: 3px; }
+  .service-price { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: #c8a03c; }
+
+  .date-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .date-btn {
+    background: #1a1a1a; border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px; padding: 10px 4px; text-align: center;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .date-btn:hover { border-color: rgba(200,160,60,0.3); }
+  .date-btn.selected { border-color: #c8a03c; background: rgba(200,160,60,0.07); }
+  .date-btn.disabled { opacity: 0.3; pointer-events: none; }
+  .date-day { font-size: 11px; color: rgba(240,236,228,0.4); text-transform: uppercase; letter-spacing: 1px; }
+  .date-num { font-size: 18px; font-weight: 500; color: #f0ece4; margin-top: 2px; }
+  .date-btn.selected .date-num { color: #c8a03c; }
+
+  .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .time-btn {
+    background: #1a1a1a; border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px; padding: 11px 4px; text-align: center;
+    cursor: pointer; transition: all 0.2s; font-size: 13px; font-weight: 500;
+  }
+  .time-btn:hover { border-color: rgba(200,160,60,0.3); }
+  .time-btn.selected { border-color: #c8a03c; background: rgba(200,160,60,0.07); color: #c8a03c; }
+  .time-btn.blocked { opacity: 0.25; pointer-events: none; text-decoration: line-through; font-size: 11px; }
+
+  .form-group { margin-bottom: 14px; }
+  .form-group label { font-size: 12px; color: rgba(240,236,228,0.5); letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 7px; }
+  .form-group input {
+    width: 100%; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px; padding: 12px 14px; color: #f0ece4;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus { border-color: rgba(200,160,60,0.5); }
+  .form-group input::placeholder { color: rgba(240,236,228,0.2); }
+
+  .summary-card {
+    background: #1a1a1a; border: 1px solid rgba(200,160,60,0.2);
+    border-radius: 12px; padding: 18px; margin-bottom: 20px;
+  }
+  .summary-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-label { font-size: 13px; color: rgba(240,236,228,0.45); }
+  .summary-value { font-size: 13px; font-weight: 500; color: #f0ece4; }
+
+  .btn-primary {
+    width: 100%; background: #c8a03c; color: #0f0f0f;
+    border: none; border-radius: 10px; padding: 16px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; margin-top: 8px;
+  }
+  .btn-primary:hover { background: #d4ae52; }
+  .btn-primary:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .btn-back {
+    background: none; border: none; color: rgba(240,236,228,0.4);
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    cursor: pointer; padding: 0; margin: 20px 0 4px; display: flex; align-items: center; gap: 5px;
+  }
+  .btn-back:hover { color: #f0ece4; }
+
+  .success-screen { text-align: center; padding: 40px 20px; }
+  .success-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(200,160,60,0.15); border: 2px solid #c8a03c;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px; font-size: 28px;
+  }
+  .success-screen h2 { font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 10px; }
+  .success-screen p { font-size: 14px; color: rgba(240,236,228,0.5); line-height: 1.7; }
+
+  .step { display: none; }
+  .step.active { display: block; }
+
+  .info-bar { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .info-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: rgba(240,236,228,0.4); }
+  .info-dot { width: 5px; height: 5px; border-radius: 50%; background: #c8a03c; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">Marcações Online</div>
+  <h1>Barbearia<br>do João</h1>
+  <div class="hero-sub">Peniche · Seg–Sáb 09h–19h</div>
+</div>
+
+<div class="container">
+  <div class="step-indicator">
+    <div class="step-dot active" id="dot1"></div>
+    <div class="step-dot" id="dot2"></div>
+    <div class="step-dot" id="dot3"></div>
+    <div class="step-dot" id="dot4"></div>
+  </div>
+
+  <!-- STEP 1: Serviço -->
+  <div class="step active" id="step1">
+    <div class="section-title">Escolhe o serviço</div>
+    <div class="service-list" id="serviceList"></div>
+    <div class="info-bar">
+      <div class="info-item"><div class="info-dot"></div>Sem esperas</div>
+      <div class="info-item"><div class="info-dot"></div>Confirmação imediata</div>
+      <div class="info-item"><div class="info-dot"></div>Cancelamento gratuito</div>
+    </div>
+  </div>
+
+  <!-- STEP 2: Data e hora -->
+  <div class="step" id="step2">
+    <button class="btn-back" onclick="goTo(1)">← Voltar</button>
+    <div class="section-title">Escolhe o dia</div>
+    <div class="date-grid" id="dateGrid"></div>
+    <div class="section-title" style="margin-top:24px" id="timeTitle" style="display:none">Escolhe a hora</div>
+    <div class="time-grid" id="timeGrid" style="margin-top:14px"></div>
+  </div>
+
+  <!-- STEP 3: Dados pessoais -->
+  <div class="step" id="step3">
+    <button class="btn-back" onclick="goTo(2)">← Voltar</button>
+    <div class="section-title">Os teus dados</div>
+    <div class="form-group">
+      <label>Nome completo</label>
+      <input type="text" id="inputName" placeholder="Ex: Miguel Santos" oninput="checkForm()" />
+    </div>
+    <div class="form-group">
+      <label>Telemóvel</label>
+      <input type="tel" id="inputPhone" placeholder="Ex: 912 345 678" oninput="checkForm()" />
+    </div>
+    <div class="form-group">
+      <label>Email (para confirmação)</label>
+      <input type="email" id="inputEmail" placeholder="Ex: miguel@email.com" oninput="checkForm()" />
+    </div>
+    <button class="btn-primary" onclick="goTo(4)" id="btnConfirm" disabled>Ver resumo →</button>
+  </div>
+
+  <!-- STEP 4: Resumo -->
+  <div class="step" id="step4">
+    <button class="btn-back" onclick="goTo(3)">← Voltar</button>
+    <div class="section-title">Resumo da marcação</div>
+    <div class="summary-card">
+      <div class="summary-row"><span class="summary-label">Serviço</span><span class="summary-value" id="sumService">—</span></div>
+      <div class="summary-row"><span class="summary-label">Data</span><span class="summary-value" id="sumDate">—</span></div>
+      <div class="summary-row"><span class="summary-label">Hora</span><span class="summary-value" id="sumTime">—</span></div>
+      <div class="summary-row"><span class="summary-label">Duração</span><span class="summary-value" id="sumDuration">—</span></div>
+      <div class="summary-row"><span class="summary-label">Nome</span><span class="summary-value" id="sumName">—</span></div>
+      <div class="summary-row"><span class="summary-label">Preço</span><span class="summary-value" id="sumPrice" style="color:#c8a03c">—</span></div>
+    </div>
+    <button class="btn-primary" id="btnFinal" onclick="confirmBooking()">Confirmar marcação ✓</button>
+  </div>
+
+  <!-- STEP 5: Sucesso -->
+  <div class="step" id="step5">
+    <div class="success-screen">
+      <div class="success-icon">✓</div>
+      <h2>Marcação confirmada!</h2>
+      <p>Enviámos um email de confirmação.<br>Podes cancelar até 2h antes sem qualquer custo.</p>
+      <div class="summary-card" style="margin-top:28px; text-align:left">
+        <div class="summary-row"><span class="summary-label">Serviço</span><span class="summary-value" id="confService">—</span></div>
+        <div class="summary-row"><span class="summary-label">Data e hora</span><span class="summary-value" id="confDateTime">—</span></div>
+        <div class="summary-row"><span class="summary-label">Local</span><span class="summary-value">Barbearia do João, Peniche</span></div>
+      </div>
+      <button class="btn-primary" style="margin-top:20px" onclick="newBooking()">Nova marcação</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var services = [
+  { id: 1, name: 'Corte normal', duration: 30, price: 10 },
+  { id: 2, name: 'Corte + Barba', duration: 45, price: 15 },
+  { id: 3, name: 'Barba', duration: 20, price: 7 },
+  { id: 4, name: 'Corte degradê', duration: 40, price: 12 },
+  { id: 5, name: 'Corte + Barba desenhada', duration: 60, price: 20 }
+];
+
+var bookedSlots = [{ date: null, time: '10:00', dur: 40 }, { date: null, time: '14:30', dur: 30 }];
+var sel = { service: null, dateKey: null, dateLabel: null, time: null };
+
+function renderServices() {
+  var html = '';
+  for (var i = 0; i < services.length; i++) {
+    var s = services[i];
+    html += '<div class="service-card" id="svc'+s.id+'" onclick="selectService('+s.id+')">' +
+      '<div class="service-info"><h3>'+s.name+'</h3><div class="service-meta">'+s.duration+' min · intervalo incluído</div></div>' +
+      '<div class="service-price">'+s.price+'€</div>' +
+    '</div>';
+  }
+  document.getElementById('serviceList').innerHTML = html;
+}
+
+function selectService(id) {
+  sel.service = null;
+  for (var i = 0; i < services.length; i++) {
+    if (services[i].id === id) { sel.service = services[i]; break; }
+  }
+  var cards = document.querySelectorAll('.service-card');
+  for (var i = 0; i < cards.length; i++) cards[i].classList.remove('selected');
+  document.getElementById('svc'+id).classList.add('selected');
+  sel.time = null;
+  setTimeout(function(){ goTo(2); }, 180);
+}
+
+function renderDates() {
+  var days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  var today = new Date();
+  var html = '';
+  for (var i = 1; i <= 8; i++) {
+    var d = new Date(today);
+    d.setDate(today.getDate() + i);
+    var isSun = d.getDay() === 0;
+    var key = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    var label = days[d.getDay()]+' '+d.getDate();
+    var cls = 'date-btn' + (isSun ? ' disabled' : '') + (sel.dateKey === key ? ' selected' : '');
+    var onclick = isSun ? '' : 'onclick="selectDate(\''+key+'\',\''+label+'\')"';
+    html += '<div class="'+cls+'" '+onclick+'><div class="date-day">'+days[d.getDay()]+'</div><div class="date-num">'+d.getDate()+'</div></div>';
+  }
+  document.getElementById('dateGrid').innerHTML = html;
+}
+
+function selectDate(key, label) {
+  sel.dateKey = key;
+  sel.dateLabel = label;
+  sel.time = null;
+  var btns = document.querySelectorAll('.date-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('selected');
+  event.currentTarget.classList.add('selected');
+  renderTimes();
+}
+
+function renderTimes() {
+  if (!sel.service) return;
+  var dur = sel.service.duration + 10;
+  var slots = [];
+  for (var h = 9; h < 19; h++) {
+    for (var m = 0; m < 60; m += 30) {
+      var endMin = h * 60 + m + dur;
+      if (endMin <= 19 * 60) {
+        slots.push(String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0'));
+      }
+    }
+  }
+  var html = '';
+  for (var i = 0; i < slots.length; i++) {
+    var t = slots[i];
+    var tMin = parseInt(t.split(':')[0]) * 60 + parseInt(t.split(':')[1]);
+    var blocked = false;
+    for (var j = 0; j < bookedSlots.length; j++) {
+      var b = bookedSlots[j];
+      if (b.date && b.date !== sel.dateKey) continue;
+      var bMin = parseInt(b.time.split(':')[0]) * 60 + parseInt(b.time.split(':')[1]);
+      if (Math.abs(bMin - tMin) < Math.max(dur, b.dur)) { blocked = true; break; }
+    }
+    var cls = 'time-btn' + (blocked ? ' blocked' : '') + (sel.time === t ? ' selected' : '');
+    var onclick = blocked ? '' : 'onclick="selectTime(\''+t+'\')"';
+    html += '<div class="'+cls+'" '+onclick+'>'+t+'</div>';
+  }
+  document.getElementById('timeGrid').innerHTML = html;
+  document.getElementById('timeTitle').style.display = 'block';
+}
+
+function selectTime(t) {
+  sel.time = t;
+  var btns = document.querySelectorAll('.time-btn:not(.blocked)');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('selected');
+  event.currentTarget.classList.add('selected');
+  setTimeout(function(){ goTo(3); }, 180);
+}
+
+function checkForm() {
+  var ok = document.getElementById('inputName').value.trim() &&
+           document.getElementById('inputPhone').value.trim() &&
+           document.getElementById('inputEmail').value.trim();
+  document.getElementById('btnConfirm').disabled = !ok;
+}
+
+function goTo(step) {
+  for (var i = 1; i <= 5; i++) {
+    document.getElementById('step'+i).classList.toggle('active', i === step);
+  }
+  var dots = document.querySelectorAll('.step-dot');
+  for (var i = 0; i < dots.length; i++) dots[i].classList.toggle('active', i < step);
+  if (step === 2) { renderDates(); if (sel.dateKey) renderTimes(); }
+  if (step === 4) {
+    document.getElementById('sumService').textContent = sel.service.name;
+    document.getElementById('sumDate').textContent = sel.dateLabel || '—';
+    document.getElementById('sumTime').textContent = sel.time || '—';
+    document.getElementById('sumDuration').textContent = sel.service.duration + ' min';
+    document.getElementById('sumName').textContent = document.getElementById('inputName').value;
+    document.getElementById('sumPrice').textContent = sel.service.price + '€';
+  }
+}
+
+function confirmBooking() {
+  var btn = document.getElementById('btnFinal');
+  btn.disabled = true;
+  btn.textContent = 'A enviar...';
+
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhkf5-8JLachiVHx2EwmofHTGfUhWgJBgN7wD7xbxeAFB8pPJfFsOPRJCEX4fJxXTUiw/exec';
+
+  var payload = {
+    nome: document.getElementById('inputName').value,
+    telemovel: document.getElementById('inputPhone').value,
+    email: document.getElementById('inputEmail').value,
+    servico: sel.service.name,
+    data: sel.dateLabel,
+    hora: sel.time
+  };
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(function() {
+    bookedSlots.push({ date: sel.dateKey, time: sel.time, dur: sel.service.duration + 10 });
+    document.getElementById('confService').textContent = sel.service.name;
+    document.getElementById('confDateTime').textContent = sel.dateLabel + ' às ' + sel.time;
+    goTo(5);
+  }).catch(function() {
+    bookedSlots.push({ date: sel.dateKey, time: sel.time, dur: sel.service.duration + 10 });
+    document.getElementById('confService').textContent = sel.service.name;
+    document.getElementById('confDateTime').textContent = sel.dateLabel + ' às ' + sel.time;
+    goTo(5);
+  });
+}
+
+function newBooking() {
+  sel = { service: null, dateKey: null, dateLabel: null, time: null };
+  document.getElementById('inputName').value = '';
+  document.getElementById('inputPhone').value = '';
+  document.getElementById('inputEmail').value = '';
+  goTo(1);
+}
+
+renderServices();
+</script>
+</body>
+</html>
