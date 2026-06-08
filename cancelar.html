@@ -69,7 +69,7 @@
 </div>
 
 <script>
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyvVrJV3SINhXDM9s0N1nPGRnIsnIrB9XaoQNOqrkwYQVplvSda6rFhfY33QEaay-dm-Q/exec';
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx0BgkwcBy1NeTHpOQb3BNblF9wZk2NYCCr196fqlefB5nB8QOfqLNL6JIe4ZuXP9O-yg/exec';
 var cancelId = new URL(window.location.href).searchParams.get('id');
 
 function showState(id) {
@@ -79,10 +79,20 @@ function showState(id) {
   }
 }
 
+function formatarHora(hora) {
+  if (!hora) return "—";
+  if (/^\d{2}:\d{2}$/.test(hora)) return hora;
+  var d = new Date(hora);
+  if (!isNaN(d.getTime())) {
+    return String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+  }
+  return hora;
+}
+
 function summaryHTML(res) {
   return '<div class="summary-row"><span class="summary-label">Serviço</span><span class="summary-value">' + res.servico + '</span></div>' +
          '<div class="summary-row"><span class="summary-label">Data</span><span class="summary-value">' + res.data + '</span></div>' +
-         '<div class="summary-row"><span class="summary-label">Hora</span><span class="summary-value">' + res.hora + '</span></div>' +
+         '<div class="summary-row"><span class="summary-label">Hora</span><span class="summary-value">' + formatarHora(res.hora) + '</span></div>' +
          '<div class="summary-row"><span class="summary-label">Nome</span><span class="summary-value">' + res.nome + '</span></div>';
 }
 
