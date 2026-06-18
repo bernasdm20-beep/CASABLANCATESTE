@@ -26,6 +26,7 @@
   .btn-danger:disabled{opacity:.4;cursor:not-allowed}
   .btn-secondary{width:100%;background:#222;color:rgba(240,236,228,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:15px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all .2s;margin-top:8px}
   .btn-secondary:hover{background:#2a2a2a}
+  .btn-link{display:inline-block;margin-top:20px;background:#c8a03c;color:#0f0f0f;border:none;border-radius:10px;padding:14px 28px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;text-decoration:none}
   .spinner{width:28px;height:28px;border:2px solid rgba(200,160,60,0.2);border-top-color:#c8a03c;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto}
   @keyframes spin{to{transform:rotate(360deg)}}
   .hidden{display:none}
@@ -51,16 +52,19 @@
     <h1>Marcação cancelada</h1>
     <p>A tua marcação foi cancelada com sucesso.</p>
     <div class="summary" id="summarySuccess"></div>
+    <a href="https://bernasdm20-beep.github.io/joaoficamarcado" class="btn-link">Voltar à página inicial</a>
   </div>
   <div id="stateAlready" class="hidden">
     <div class="icon icon-error">✕</div>
     <h1>Já cancelada</h1>
     <p>Esta marcação já foi cancelada anteriormente.</p>
+    <a href="https://bernasdm20-beep.github.io/joaoficamarcado" class="btn-link">Voltar à página inicial</a>
   </div>
   <div id="stateError" class="hidden">
     <div class="icon icon-error">✕</div>
     <h1>Link inválido</h1>
     <p>Não foi possível encontrar esta marcação.</p>
+    <a href="https://bernasdm20-beep.github.io/joaoficamarcado" class="btn-link">Voltar à página inicial</a>
   </div>
 </div>
 <script>
