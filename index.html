@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FicaMarcado – Marcações Online</title>
+<title>Barbearia do João – Marcações</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -174,7 +174,7 @@
 
 <div class="hero">
   <div class="hero-badge">Marcações Online</div>
-  <h1 onclick="location.reload()" style="cursor:pointer">FicaMarcado</h1>
+  <h1 onclick="location.reload()" style="cursor:pointer">Barbearia<br>do João</h1>
   <div class="hero-sub" id="heroSub">A carregar...</div>
 </div>
 
@@ -257,7 +257,7 @@
 </div>
 
 <script>
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw8ChZzOwch0WBBnRGv_-JaT8IWOLPgHXYK6RXgrMTqmGZeYD07lR-ZLF_eWnddtjNFSA/exec';
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMq1fp4IIyY2DFqvea0hdJvkHOhuhXHvL54qD4Inly9s-V-JqAyEkyNTzr912XBHRo/exec';
 
 var config = null;
 var sel = { servico: null, dataISO: null, dataLabel: null, hora: null };
@@ -285,7 +285,7 @@ function carregarConfig() {
 function atualizarHeroSub() {
   if (!config) return;
   // Mostrar horário geral (ex: Seg-Sex 09h-19h)
-  document.getElementById('heroSub').textContent = 'Marcações Online';
+  document.getElementById('heroSub').textContent = 'Peniche · Marcações Online';
 }
 
 // ─── STEP 1: SERVICOS ───────────────────────────────────
