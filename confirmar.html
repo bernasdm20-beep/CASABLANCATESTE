@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Confirmar Marcação – FicaMarcado</title>
+<title>Confirmar Marcação – Casablanca</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'DM Sans',sans-serif; background:#0f0f0f; color:#f0ece4; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; }
-  .card { background:#1a1a1a; border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:32px 28px; max-width:420px; width:100%; text-align:center; }
+  body { font-family:'DM Sans',sans-serif; background:#0a2e30; color:#f0ece4; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; }
+  .card { background:#113f42; border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:32px 28px; max-width:420px; width:100%; text-align:center; }
   .icon { width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:28px; }
   .icon-loading { background:rgba(200,160,60,0.1); border:2px solid rgba(200,160,60,0.3); }
   .icon-success { background:rgba(40,180,100,0.15); border:2px solid #28b464; }
@@ -16,21 +16,27 @@
   .icon-already { background:rgba(200,160,60,0.15); border:2px solid #c8a03c; }
   h1 { font-family:'Playfair Display',serif; font-size:24px; margin-bottom:10px; }
   p { font-size:14px; color:rgba(240,236,228,0.55); line-height:1.7; }
-  .summary { background:#111; border:1px solid rgba(200,160,60,0.2); border-radius:10px; padding:16px; margin:20px 0; text-align:left; }
+  .summary { background:#0d3335; border:1px solid rgba(200,160,60,0.2); border-radius:10px; padding:16px; margin:20px 0; text-align:left; }
   .summary-row { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
   .summary-row:last-child { border-bottom:none; }
   .summary-label { font-size:13px; color:rgba(240,236,228,0.4); }
   .summary-value { font-size:13px; font-weight:500; color:#f0ece4; }
   .brand { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#c8a03c; margin-bottom:24px; }
+  .brand-logo{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid #c8a03c;margin:0 auto 14px;box-shadow:0 4px 16px rgba(0,0,0,0.35);}
+  .brand-logo img{width:100%;height:100%;object-fit:cover;transform:scale(1.16);display:block;}
   .spinner { width:28px; height:28px; border:2px solid rgba(200,160,60,0.2); border-top-color:#c8a03c; border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto; }
   @keyframes spin { to { transform:rotate(360deg); } }
   .hidden { display:none; }
-  .btn { display:inline-block; margin-top:20px; background:#c8a03c; color:#0f0f0f; border:none; border-radius:10px; padding:14px 28px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:pointer; text-decoration:none; }
+  .btn { display:inline-block; margin-top:20px; background:#c8a03c; color:#0a2e30; border:none; border-radius:10px; padding:14px 28px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:pointer; text-decoration:none; }
+  .site-footer { text-align:center; margin-top:24px; font-size:11px; color:rgba(240,236,228,0.28); letter-spacing:0.3px; }
+  .site-footer a { color:rgba(200,160,60,0.55); text-decoration:none; }
+  .site-footer a:hover { color:#c8a03c; text-decoration:underline; }
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="brand">FicaMarcado</div>
+  <div class="brand-logo"><img src="logo-icon.png" alt="Casablanca"></div>
+  <div class="brand">Casablanca</div>
 
   <div id="stateLoading">
     <div class="icon icon-loading"><div class="spinner"></div></div>
@@ -43,33 +49,37 @@
     <h1>Marcação confirmada!</h1>
     <p>A tua marcação ficou registada. Até já!</p>
     <div class="summary" id="summarySuccess"></div>
-    <a href="https://bernasdm20-beep.github.io/joaoficamarcado" class="btn">Voltar à página inicial</a>
+    <a href="https://bernasdm20-beep.github.io/casablanca-teste" class="btn">Voltar à página inicial</a>
   </div>
 
   <div id="stateAlready" class="hidden">
     <div class="icon icon-already">✓</div>
     <h1>Já confirmada</h1>
     <p>Esta marcação já foi confirmada anteriormente.</p>
-    <a href="https://bernasdm20-beep.github.io/joaoficamarcado" class="btn">Voltar à página inicial</a>
+    <a href="https://bernasdm20-beep.github.io/casablanca-teste" class="btn">Voltar à página inicial</a>
   </div>
 
   <div id="stateCanceled" class="hidden">
     <div class="icon icon-error">✕</div>
     <h1>Marcação cancelada</h1>
     <p>Esta marcação foi cancelada e não pode ser confirmada.</p>
-    <a href="https://bernasdm20-beep.github.io/joaoficamarcado" class="btn">Voltar à página inicial</a>
+    <a href="https://bernasdm20-beep.github.io/casablanca-teste" class="btn">Voltar à página inicial</a>
   </div>
 
   <div id="stateError" class="hidden">
     <div class="icon icon-error">✕</div>
     <h1>Link inválido</h1>
     <p>Não foi possível encontrar esta marcação. O link pode ter expirado.</p>
-    <a href="https://bernasdm20-beep.github.io/joaoficamarcado" class="btn">Voltar à página inicial</a>
+    <a href="https://bernasdm20-beep.github.io/casablanca-teste" class="btn">Voltar à página inicial</a>
   </div>
 </div>
 
+<div class="site-footer">
+  Site criado por <a href="mailto:ficamarcadopt@gmail.com">FicaMarcado</a>
+</div>
+
 <script>
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyxV0vCiyLvPkL8WinbxOqgtTdxRy0lLvUglY43RHKfSJNLJmYzIlP363yO77dr0WKNqw/exec';
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWHi8Tow4yGvBhlvnrEIGc4v2iNpzvQzHG5_BViK5-y70CJzy_vFf4KHFQQrAIdJ6Idw/exec';
 
 function show(id) {
   ['stateLoading','stateSuccess','stateAlready','stateCanceled','stateError'].forEach(function(s) {

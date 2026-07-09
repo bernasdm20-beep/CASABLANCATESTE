@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FicaMarcado – Marcações Online</title>
+<title>Casablanca – Marcações Online</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --dark: #0f0f0f;
-    --dark2: #1a1a1a;
-    --dark3: #222;
+    --dark: #0a2e30;
+    --dark2: #113f42;
+    --dark3: #17494c;
     --gold: #c8a03c;
     --gold2: #d4ae52;
     --white: #f0ece4;
@@ -26,22 +26,41 @@
 
   /* HERO */
   .hero {
-    min-height:220px;
-    background:linear-gradient(160deg,#1a1208 0%,#2d1f0a 50%,#0f0f0f 100%);
-    display:flex; flex-direction:column; justify-content:flex-end;
-    padding:0 20px 24px; position:relative; overflow:hidden;
+    background:linear-gradient(160deg,#0f4a4d 0%,#0a3a3d 55%,#0a2e30 100%);
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    padding:44px 20px 34px; position:relative; overflow:hidden;
   }
   .hero::before {
-    content:''; position:absolute; inset:0;
-    background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(200,160,60,0.03) 40px,rgba(200,160,60,0.03) 41px);
+    content:''; position:absolute; top:-40%; left:50%; transform:translateX(-50%);
+    width:420px; height:420px; border-radius:50%;
+    background:radial-gradient(circle, rgba(200,160,60,0.16) 0%, transparent 68%);
+    pointer-events:none;
   }
+  .hero-logo {
+    width:100px; height:100px; border-radius:50%; overflow:hidden;
+    border:2px solid var(--gold); background:var(--dark2);
+    box-shadow:0 6px 24px rgba(0,0,0,0.35);
+    margin-bottom:16px; position:relative; z-index:1;
+  }
+  .hero-logo img { width:100%; height:100%; object-fit:cover; transform:scale(1.16); display:block; }
   .hero-badge {
     display:inline-block; font-size:10px; font-weight:500; letter-spacing:2px;
     text-transform:uppercase; color:var(--gold); border:1px solid rgba(200,160,60,0.4);
-    padding:4px 10px; border-radius:2px; margin-bottom:10px; width:fit-content; position:relative; z-index:1;
+    padding:4px 10px; border-radius:2px; margin-bottom:12px; position:relative; z-index:1;
   }
-  .hero h1 { font-family:'Playfair Display',serif; font-size:30px; font-weight:700; line-height:1.1; position:relative; z-index:1; }
-  .hero-sub { font-size:12px; color:var(--white2); margin-top:6px; position:relative; z-index:1; }
+  .hero h1 { font-family:'Playfair Display',serif; font-size:32px; font-weight:700; line-height:1.1; position:relative; z-index:1; }
+  .hero-sub { font-size:12px; color:var(--white2); margin-top:5px; position:relative; z-index:1; letter-spacing:0.3px; }
+  .hero-divider { position:relative; height:1px; background:linear-gradient(90deg,transparent,rgba(200,160,60,0.5),transparent); }
+  .hero-divider span {
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    background:var(--dark); color:var(--gold); font-size:13px; padding:0 12px; line-height:1;
+  }
+  .site-footer {
+    text-align:center; padding:28px 20px 36px; font-size:11px; color:rgba(240,236,228,0.28);
+    letter-spacing:0.3px;
+  }
+  .site-footer a { color:rgba(200,160,60,0.55); text-decoration:none; }
+  .site-footer a:hover { color:var(--gold); text-decoration:underline; }
 
   /* CONTAINER */
   .container { max-width:480px; margin:0 auto; padding:0 16px 60px; }
@@ -120,7 +139,7 @@
 
   /* BUTTONS */
   .btn-primary {
-    width:100%; background:var(--gold); color:#0f0f0f;
+    width:100%; background:var(--gold); color:#0a2e30;
     border:none; border-radius:var(--radius); padding:16px;
     font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500;
     cursor:pointer; transition:all 0.2s; margin-top:8px;
@@ -173,10 +192,12 @@
 <body>
 
 <div class="hero">
+  <div class="hero-logo"><img src="logo-icon.png" alt="Casablanca"></div>
   <div class="hero-badge">Marcações Online</div>
-  <h1 onclick="location.reload()" style="cursor:pointer">FicaMarcado</h1>
+  <h1 onclick="location.reload()" style="cursor:pointer">Casablanca</h1>
   <div class="hero-sub" id="heroSub">A carregar...</div>
 </div>
+<div class="hero-divider"><span>✦</span></div>
 
 <div class="container">
   <div class="steps">
@@ -256,8 +277,13 @@
   </div>
 </div>
 
+<div class="site-footer">
+  Site criado por <a href="mailto:ficamarcadopt@gmail.com">FicaMarcado</a>
+</div>
+
 <script>
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyxV0vCiyLvPkL8WinbxOqgtTdxRy0lLvUglY43RHKfSJNLJmYzIlP363yO77dr0WKNqw/exec';
+// ⚠️ SUBSTITUIR pelo URL do NOVO deployment do Apps Script da Casablanca (Sheet nova, não a do João)
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWHi8Tow4yGvBhlvnrEIGc4v2iNpzvQzHG5_BViK5-y70CJzy_vFf4KHFQQrAIdJ6Idw/exec';
 
 var config = null;
 var sel = { servico: null, dataISO: null, dataLabel: null, hora: null };
@@ -268,7 +294,8 @@ var DIAS_SHORT = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 // ─── INIT ───────────────────────────────────────────────
 window.onload = function() { carregarConfig(); };
 
-function carregarConfig() {
+function carregarConfig(tentativa) {
+  tentativa = tentativa || 1;
   fetch(SCRIPT_URL + '?acao=config')
     .then(function(r) { return r.json(); })
     .then(function(data) {
@@ -277,15 +304,20 @@ function carregarConfig() {
       atualizarHeroSub();
     })
     .catch(function() {
-      document.getElementById('step1Content').innerHTML =
-        '<div class="empty-state">Erro ao carregar. Tenta novamente mais tarde.</div>';
+      if (tentativa < 3) {
+        // Falha de rede pontual - tenta outra vez automaticamente antes de desistir
+        setTimeout(function() { carregarConfig(tentativa + 1); }, 1200);
+      } else {
+        document.getElementById('step1Content').innerHTML =
+          '<div class="empty-state">Erro ao carregar. Tenta novamente mais tarde.</div>';
+      }
     });
 }
 
 function atualizarHeroSub() {
   if (!config) return;
   // Mostrar horário geral (ex: Seg-Sex 09h-19h)
-  document.getElementById('heroSub').textContent = 'Marcações Online';
+  document.getElementById('heroSub').textContent = 'Peniche · Marcações Online';
 }
 
 // ─── STEP 1: SERVICOS ───────────────────────────────────
@@ -370,7 +402,8 @@ function selecionarData(dataISO, dataLabel) {
   carregarHoras(dataISO);
 }
 
-function carregarHoras(dataISO) {
+function carregarHoras(dataISO, tentativa) {
+  tentativa = tentativa || 1;
   var loading = document.getElementById('timeLoading');
   var grid = document.getElementById('timeGrid');
   loading.style.display = 'block';
@@ -398,8 +431,12 @@ function carregarHoras(dataISO) {
       grid.innerHTML = html;
     })
     .catch(function() {
-      loading.style.display = 'none';
-      grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1">Erro ao carregar horários.</div>';
+      if (tentativa < 3) {
+        setTimeout(function() { carregarHoras(dataISO, tentativa + 1); }, 1200);
+      } else {
+        loading.style.display = 'none';
+        grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1">Erro ao carregar horários.</div>';
+      }
     });
 }
 
